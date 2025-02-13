@@ -16,6 +16,7 @@ export class CategoriesController {
 
 	@Get()
 	findAll() {
+		console.log('GET /categories route hit');
 		return this.categoriesService.findAll();
 	}
 
