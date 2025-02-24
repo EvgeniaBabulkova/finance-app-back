@@ -9,15 +9,15 @@ export class CategoriesController {
 	constructor(private readonly categoriesService: CategoriesService) {}
 
 	@Post()
-	create(@Body() createCategoryDto: CreateCategoryDto) {
-		console.log('POST /categories route hit');
-		return this.categoriesService.create(createCategoryDto);
+	async create(@Body() createCategoryDto: CreateCategoryDto) {
+		console.log('POST /categories route hittt');
+		return await this.categoriesService.create(createCategoryDto);
 	}
 
 	@Get()
-	findAll() {
-		console.log('GET /categories route hit');
-		return this.categoriesService.findAll();
+	async findAll() {
+		console.log('GET /categories route hittt');
+		return await this.categoriesService.findAll();
 	}
 
 	// @Get(':id')
