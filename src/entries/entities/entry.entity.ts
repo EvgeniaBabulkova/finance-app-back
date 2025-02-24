@@ -12,6 +12,9 @@ export class Entry {
 	@Column()
 	description: string;
 
+	@Column()
+	lala: string;
+
 	@ManyToOne(() => Category, (category) => category.entries, {
 		eager: true,
 	})
