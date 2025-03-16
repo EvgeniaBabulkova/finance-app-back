@@ -13,8 +13,9 @@ export class CategoriesService {
 	) {}
 
 	create(createCategoryDto: CreateCategoryDto) {
-		// const category = this.categoryRepository.create(createCategoryDto); // Uses DTO data
-		return this.categoryRepository.save(createCategoryDto);
+		console.log('POST /categories route hittt');
+		const category = this.categoryRepository.create(createCategoryDto);
+		return this.categoryRepository.save(category);
 	}
 
 	findAll() {

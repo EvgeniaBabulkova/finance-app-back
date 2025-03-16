@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { CategoriesModule } from './categories/categories.module';
 import { EntriesModule } from './entries/entries.module';
 import { dbConfig } from 'data.source';
+import { UsersModule } from './users/users.module';
 
 @Module({
 	imports: [
@@ -14,6 +15,7 @@ import { dbConfig } from 'data.source';
 
 		CategoriesModule,
 		EntriesModule,
+		UsersModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],
