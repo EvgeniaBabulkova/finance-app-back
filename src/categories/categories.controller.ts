@@ -1,6 +1,8 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, ParseIntPipe, Delete } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
+import { UpdateCategoryDto } from './dto/update-category.dto';
+import { Category } from './entities/category.entity';
 // import { UpdateCategoryDto } from './dto/update-category.dto';
 // import { Category } from './entities/category.entity';
 
@@ -10,6 +12,7 @@ export class CategoriesController {
 
 	@Post()
 	async create(@Body() createCategoryDto: CreateCategoryDto) {
+		console.log('POST /a category route hittt');
 		return await this.categoriesService.create(createCategoryDto);
 	}
 
@@ -19,18 +22,21 @@ export class CategoriesController {
 		return await this.categoriesService.findAll();
 	}
 
-	// @Get(':id')
-	// async findOne(@Param('id', ParseIntPipe) id: number): Promise<Category | null> {
-	// 	return this.categoriesService.findOne(id);
-	// }
+	@Get(':id')
+	async findOne(@Param('id', ParseIntPipe) id: number): Promise<Category> {
+		console.log('GET /a category route hittt');
+		return this.categoriesService.findOne(id);
+	}
 
-	// @Patch(':id')
-	// async update(@Param('id', ParseIntPipe) id: number, @Body() updateCategoryDto: UpdateCategoryDto): Promise<Category | null> {
-	// 	return this.categoriesService.update(id, updateCategoryDto);
-	// }
+	@Patch(':id')
+	async update(@Param('id', ParseIntPipe) id: string, @Body() updateCategoryDto: UpdateCategoryDto): Promise<Category> {
+		console.log('PATCH /a category route hittt');
+		return await this.categoriesService.update(+id, updateCategoryDto);
+	}
 
-	// @Delete(':id')
-	// async remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
-	// 	return this.categoriesService.remove(id);
-	// }
+	@Delete(':id')
+	async remove(@Param('id', ParseIntPipe) id: string): Promise<void> {
+		console.log('DELETE /a category route hittt');
+		return this.categoriesService.remove(+id);
+	}
 }

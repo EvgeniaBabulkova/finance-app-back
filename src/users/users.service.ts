@@ -11,21 +11,22 @@ export class UsersService {
 		private readonly userRepository: Repository<User>
 	) {}
 
+	// i should move this one to an auth folder
 	create(createUserDto: CreateUserDto) {
 		console.log('POST /users route hittt');
 		const user = this.userRepository.create(createUserDto);
 		return this.userRepository.save(user);
 	}
 
-	findAll() {
-		return `This action returns all users`;
+	async findAll(): Promise<User[]> {
+		return this.userRepository.find();
 	}
 
 	findOne(id: number) {
 		return `This action returns a #${id} user`;
 	}
 
-	// update(id: number, updateUserDto: UpdateUserDto) {
+	// update(id: number, UpdateUserDto: UpdateUserDto) {
 	// 	return `This action updates a #${id} user`;
 	// }
 

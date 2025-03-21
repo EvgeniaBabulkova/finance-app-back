@@ -4,6 +4,7 @@ import { CreateCategoryDto } from './dto/create-category.dto';
 import { Category } from './entities/category.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { UpdateCategoryDto } from './dto/update-category.dto';
 
 @Injectable()
 export class CategoriesService {
@@ -13,7 +14,6 @@ export class CategoriesService {
 	) {}
 
 	create(createCategoryDto: CreateCategoryDto) {
-		console.log('POST /categories route hittt');
 		const category = this.categoryRepository.create(createCategoryDto);
 		return this.categoryRepository.save(category);
 	}
@@ -22,16 +22,16 @@ export class CategoriesService {
 		return this.categoryRepository.find();
 	}
 
-	// findOne(id: number) {
-	// 	return this.categoryRepository.findOne({ where: { id } });
-	// }
+	findOne(id: number) {
+		return this.categoryRepository.findOne({ where: { id } });
+	}
 
-	// update(id: number, updateCategoryDto: UpdateCategoryDto) {
-	// 	this.categoryRepository.update(id, updateCategoryDto);
-	// 	return this.findOne(id); // Return updated category
-	// }
+	async update(id: number, updateCategoryDto: UpdateCategoryDto): Promise<Category> {
+		await this.categoryRepository.update(id, updateCategoryDto);
+		return this.findOne(id); // Return updated category
+	}
 
-	// remove(id: number) {
-	// 	 this.categoryRepository.delete(id);
-	// }
+	remove(id: number) {
+		this.categoryRepository.delete(id);
+	}
 }
