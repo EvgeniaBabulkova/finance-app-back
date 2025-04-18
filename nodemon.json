@@ -3,9 +3,11 @@
 	"ext": "ts",
 	"ignore": ["src/**/*.spec.ts"],
 	"exec": "ts-node -r tsconfig-paths/register ./src/main.ts",
-	"delay": "2500",
+	"delay": "1000",
 	"signal": "SIGTERM",
 	"events": {
-		"restart": "cmd.exe /c \"for /f \"tokens=5\" %i in ('netstat -ano ^| findstr :3000') do taskkill /F /PID %i\""
-	}
+		"restart": "echo \"Restarting server...\"",
+		"crash": "echo \"Application crashed - waiting for changes...\""
+	},
+	"restartable": "rs"
 }

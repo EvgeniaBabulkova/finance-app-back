@@ -11,7 +11,6 @@ export class UsersService {
 		private readonly userRepository: Repository<User>
 	) {}
 
-	// i should move this one to an auth folder
 	create(createUserDto: CreateUserDto) {
 		console.log('POST /users route hittt');
 		const user = this.userRepository.create(createUserDto);
@@ -22,9 +21,19 @@ export class UsersService {
 		return this.userRepository.find();
 	}
 
-	findOne(id: number) {
-		return `This action returns a #${id} user`;
+	findOne(id: number): Promise<User> {
+		return this.userRepository.findOne({
+			where: { id },
+		});
 	}
+
+	async findOneByEmail(email: string): Promise<User> {
+		return this.userRepository.findOne({ where: { email } });
+	}
+	// for later validation------------
+	// async findOneByUsername(username: string): Promise<User> {
+	// 	return this.userModel.findOne({ email }).exec();
+	// }
 
 	// update(id: number, UpdateUserDto: UpdateUserDto) {
 	// 	return `This action updates a #${id} user`;

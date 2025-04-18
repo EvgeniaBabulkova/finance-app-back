@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { Role } from '../Role';
+import { Role } from '../../constants/Role';
 
 @Entity()
 export class User {
@@ -8,6 +8,9 @@ export class User {
 
 	@Column()
 	username: string;
+
+	@Column({ unique: true })
+	email: string;
 
 	@Column()
 	password: string;
