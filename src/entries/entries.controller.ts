@@ -1,10 +1,12 @@
-import { Controller, Get, Post, Body, Param, Patch } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Patch, UseGuards } from '@nestjs/common';
 import { EntriesService } from './entries.service';
 import { CreateEntryDto } from './dto/create-entry.dto';
 import { Entry } from './entities/entry.entity';
 import { UpdateEntryDto } from './dto/update-entry.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('entries')
+@UseGuards(AuthGuard) // Protect all routes in this controller
 export class EntriesController {
 	constructor(private readonly entriesService: EntriesService) {}
 

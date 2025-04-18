@@ -1,12 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, ParseIntPipe, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, ParseIntPipe, Delete, UseGuards } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { Category } from './entities/category.entity';
+import { AuthGuard } from 'src/auth/auth.guard';
 // import { UpdateCategoryDto } from './dto/update-category.dto';
 // import { Category } from './entities/category.entity';
 
 @Controller('categories')
+@UseGuards(AuthGuard) // Protect all routes in this controller
 export class CategoriesController {
 	constructor(private readonly categoriesService: CategoriesService) {}
 
