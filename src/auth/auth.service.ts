@@ -6,6 +6,9 @@ import { User } from 'src/users/entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { ErrorMessages } from 'src/constants/error-messages';
 import { LoginDto } from 'src/users/dto/login.dto';
+import { Role } from 'src/constants/Role';
+import { hashPassword } from 'src/utils/password.utils';
+import { UpdateUserDto } from 'src/users/dto/update-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -54,7 +57,7 @@ export class AuthService {
 			}
 
 			// Hash password and create user
-			const hashedPassword = await bcrypt.hash(user.password, 10);
+			const hashedPassword = await hashPassword(user.password);
 			const newUser = await this.usersService.create({
 				...user,
 				password: hashedPassword,
@@ -79,9 +82,24 @@ export class AuthService {
 			// Return a generic error message to the client
 			throw new InternalServerErrorException(ErrorMessages.UNKNOW_REGISTER_ERROR);
 		}
+	}
 
-		// remove(id: number) {
-		// 	return `This action removes a #${id} auth`;
-		// }
+	async goPremium(userId: number) {
+		// Find the user by ID
+		const user = await this.usersService.findOne(userId);
+		if (!user) {
+			throw new Error('User not found');
+		}
+
+		// Check if the user is already a premium user
+		if (user.role === Role.PremiumUser) {
+			throw new Error('User is already a premium member');
+		}
+
+		// Upgrade the user's role to 'Premium'
+		user.role = Role.PremiumUser;
+		await this.usersService.updateUser(userId, { role: Role.PremiumUser } as UpdateUserDto);
+
+		return user; // returns the updated user
 	}
 }

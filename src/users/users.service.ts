@@ -3,6 +3,8 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { hashPassword } from 'src/utils/password.utils';
 
 @Injectable()
 export class UsersService {
@@ -30,14 +32,23 @@ export class UsersService {
 	async findOneByEmail(email: string): Promise<User> {
 		return this.userRepository.findOne({ where: { email } });
 	}
-	// for later validation------------
-	// async findOneByUsername(username: string): Promise<User> {
-	// 	return this.userModel.findOne({ email }).exec();
-	// }
 
-	// update(id: number, UpdateUserDto: UpdateUserDto) {
-	// 	return `This action updates a #${id} user`;
-	// }
+	async updateUser(userId: number, updateUserDto: UpdateUserDto): Promise<User> {
+		// Find the user
+		const user = await this.findOne(userId);
+		if (!user) {
+			throw new Error('User not found');
+		}
+
+		// if there's a pass in the update DTO - hash it
+		if (updateUserDto.password) {
+			updateUserDto.password = await hashPassword(updateUserDto.password);
+		}
+
+		// Update the user
+		await this.userRepository.update(userId, updateUserDto);
+		return this.findOne(userId);
+	}
 
 	// remove(id: number) {
 	// 	return `This action removes a #${id} user`;

@@ -4,6 +4,7 @@ import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { Category } from './entities/category.entity';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { PremiumUserGuard } from 'src/auth/premium.guard';
 // import { UpdateCategoryDto } from './dto/update-category.dto';
 // import { Category } from './entities/category.entity';
 
@@ -13,6 +14,7 @@ export class CategoriesController {
 	constructor(private readonly categoriesService: CategoriesService) {}
 
 	@Post()
+	@UseGuards(PremiumUserGuard)
 	async create(@Body() createCategoryDto: CreateCategoryDto) {
 		console.log('POST /a category route hittt');
 		return await this.categoriesService.create(createCategoryDto);
